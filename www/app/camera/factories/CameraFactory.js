@@ -7,16 +7,21 @@ angular
             writable: true
         },
         "addImg": {
-            value: function (employee) {
-                return $http({
-                    method: "POST",
-                    url: "https://angular-employees-6727b.firebaseio.com/employees/.json",
-                    data: {
-                        "firstName": employee.firstName,
-                        "lastName": employee.lastName,
-                        "employmentStart": Date.now(),
-                        "employmentEnd": 0
-                    }
+            value: function (picData) {
+                return firebase.auth().currentUser.getIdToken(true)
+                .then(idToken => {
+                    return $http({
+                        method: "POST",
+                        url: `https://artmap-188120.firebaseio.com/images/.json?auth=${idToken}`,
+                        data: {
+                            "userId": picData.userId,
+                            "photoId": picData.photoId,
+                            "lat": picData.lat,
+                            "long": picData.long,
+                            "time": picData.time,
+                            "artist": picData.artist
+                        }
+                    })
                 })
             }
         },

@@ -1,36 +1,38 @@
 angular.module('app')
 
-    .controller("CameraCtrl", function ($scope, $cordovaCamera, $cordovaFile, FileService) {
+    .controller("CameraCtrl", function ($scope, $cordovaCamera, $cordovaFile, $cordovaGeolocation, FileService, CameraFactory) {
 
         let b64Img = ""
 
 
-        //EXIF DATA FUNCTIONALITY
-        //utility funct based on https://en.wikipedia.org/wiki/Geographic_coordinate_conversion
-        const convertDegToDec = function (arr) {
-            return (arr[0].numerator + arr[1].numerator / 60 + (arr[2].numerator / arr[2].denominator) / 3600).toFixed(4);
-        };
+        // //EXIF DATA FUNCTIONALITY
+        // //utility funct based on https://en.wikipedia.org/wiki/Geographic_coordinate_conversion
+        // const convertDegToDec = function (arr) {
+        //     return (arr[0].numerator + arr[1].numerator / 60 + (arr[2].numerator / arr[2].denominator) / 3600).toFixed(4);
+        // };
 
-        var img = document.getElementById("picTaken");
+        // var img = document.getElementById("picTaken");
 
-        img.addEventListener("load", function () {
+        // img.addEventListener("load", function () {
 
-            console.log("SHIT's GONNA CRASH!")
-            EXIF.getData(img, function () {
-                console.log("in exif");
+        //     console.log("SHIT's GONNA CRASH!")
+        //     EXIF.getData(img, function () {
+        //         console.log("in exif");
 
-                //console.dir(EXIF.getAllTags(img));
-                let long = EXIF.getTag(this, "GPSLongitude");
-                let lat = EXIF.getTag(this, "GPSLatitude");
-                console.log("long is: ", long, "lat is: ", lat)
-                long = convertDegToDec(long);
-                lat = convertDegToDec(lat);
-                // //handle W/S
-                // if(EXIF.getTag(img,"GPSLongitudeRef") === "W") long = -1 * long;
-                // if(EXIF.getTag(img,"GPSLatitudeRef") === "S") lat = -1 * lat;
-                console.log(long, lat);
-            });
-        }, false);
+        //         //console.dir(EXIF.getAllTags(img));
+        //         let long = EXIF.getTag(this, "GPSLongitude");
+        //         let lat = EXIF.getTag(this, "GPSLatitude");
+        //         console.log("long is: ", long, "lat is: ", lat)
+        //         long = convertDegToDec(long);
+        //         lat = convertDegToDec(lat);
+        //         // //handle W/S
+        //         // if(EXIF.getTag(img,"GPSLongitudeRef") === "W") long = -1 * long;
+        //         // if(EXIF.getTag(img,"GPSLatitudeRef") === "S") lat = -1 * lat;
+        //         console.log(long, lat);
+        //     });
+        // }, false);
+
+
         ///SIMPLE VERSION OF TAKE PHOTO
         // $scope.takePhoto = function() {
         //     $cordovaCamera.getPicture({
@@ -50,9 +52,10 @@ angular.module('app')
         // //// copies the file to the cordova.file.dataDirectory
         $scope.srcImage = "";
         $scope.takePhoto = function () {
-            var options = {
+
+            const picOptions = {
                 quality: 50,
-                destinationType: Camera.DestinationType.FILE_URI,
+                destinationType: Camera.DestinationType.DATA_URL,
                 sourceType: Camera.PictureSourceType.CAMERA,
                 allowEdit: true,
                 encodingType: Camera.EncodingType.JPEG,
@@ -63,34 +66,53 @@ angular.module('app')
                 correctOrientation: true
             };
 
-            // $cordovaCamera.getPicture(options).then(function (imageData) {
-            //     $scope.srcImage = "data:image/jpeg;base64," + imageData;
-            // })
+            $cordovaCamera
+                .getPicture(picOptions)
+                .then(function (imageData) {
+                    $scope.srcImage = "data:image/jpeg;base64," + imageData;
+                    b64Img = imageData;
+            })
 
-            $cordovaCamera.getPicture(options).then(function (sourcePath) {
-                var sourceDirectory = sourcePath.substring(0, sourcePath.lastIndexOf('/') + 1);
-                var sourceFileName = sourcePath.substring(sourcePath.lastIndexOf('/') + 1, sourcePath.length);
+            const geoOptions = {
+                enableHighAccuracy: true
+            }
 
-                console.log("Copying from : " + sourceDirectory + sourceFileName);
-                console.log("Copying to : " + cordova.file.dataDirectory + sourceFileName);
-                $cordovaFile.copyFile(sourceDirectory, sourceFileName, cordova.file.dataDirectory, sourceFileName).then(function(fileEntry) {
-                    console.log(JSON.stringify(fileEntry))
-
-
-                    //         //     const path = cordova.file.dataDirectory + sourceFileName;
-                    $scope.srcImage = cordova.file.dataDirectory + sourceFileName;
-
-                    $scope.srcImage = sourcePath
-                    $scope.apply()
+            $cordovaGeolocation
+                .getCurrentPosition(geoOptions)
+                .then(function (position) {
+                    console.log(JSON.stringify(position))
+                    $scope.lat = position.coords.latitude
+                    $scope.long = position.coords.longitude
+                    $scope.time = position.timestamp
+            })
 
 
-                }, function(error) {
-                   console.dir(JSON.stringify(error));
-                });
 
-            }, function (err) {
-                console.log("get Picture error: ", JSON.stringify(err));
-            });
+
+            // $cordovaCamera.getPicture(options).then(function (sourcePath) {
+            //     var sourceDirectory = sourcePath.substring(0, sourcePath.lastIndexOf('/') + 1);
+            //     var sourceFileName = sourcePath.substring(sourcePath.lastIndexOf('/') + 1, sourcePath.length);
+
+            //     console.log("Copying from : " + sourceDirectory + sourceFileName);
+            //     console.log("Copying to : " + cordova.file.dataDirectory + sourceFileName);
+            //     $cordovaFile.copyFile(sourceDirectory, sourceFileName, cordova.file.dataDirectory, sourceFileName).then(function(fileEntry) {
+            //         console.log(JSON.stringify(fileEntry))
+
+
+            //         //         //     const path = cordova.file.dataDirectory + sourceFileName;
+            //         $scope.srcImage = cordova.file.dataDirectory + sourceFileName;
+
+            //         $scope.srcImage = sourcePath
+            //         $scope.apply()
+
+
+            //     }, function(error) {
+            //        console.dir(JSON.stringify(error));
+            //     });
+
+            // }, function (err) {
+            //     console.log("get Picture error: ", JSON.stringify(err));
+            // });
         }
 
 
@@ -374,9 +396,10 @@ angular.module('app')
             const blob = b64toBlob(b64Img, contentType);
             const blobUrl = URL.createObjectURL(blob);
 
-            // Create the file metadata
+            // Create the file metadata... doesnt work
             var metadata = {
-                photo_id: photoId
+                "photo_id": photoId,
+
             };
 
             // Upload blob to the object 'images/mountains.jpg'
@@ -419,5 +442,29 @@ angular.module('app')
 
 
                 });
+
+
+                //UPLOAD GEOLOCATION DATA
+                const picData = {
+                    "userId": uid,
+                    "photoId": photoId,
+                    "lat": $scope.lat,
+                    "long": $scope.long,
+                    "time": $scope.time,
+                    "artist": $scope.artist
+                }
+
+                CameraFactory.addImg(picData)
+
+                // var database = firebase.database();
+
+                // database.ref('images/' + photoId).set({
+                //     "userId": uid,
+                //     "lat": $scope.lat,
+                //     "long": $scope.long,
+                //     "time": $scope.time,
+                //     "artist": $scope.artist
+                // });
+
         }
     })
