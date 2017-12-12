@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+  <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *">
+
+  <title>ArtMap</title>
+
+  <link rel="manifest" href="manifest.json">
+
+  <!-- un-comment this code to enable service worker
+      <script>
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('service-worker.js')
+            .then(() => console.log('service worker installed'))
+            .catch(err => console.log('Error', err));
+        }
+      </script>-->
+
+  <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+
+  <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+      <link href="css/ionic.app.css" rel="stylesheet">
+      -->
+
+  <!-- ionic/angularjs js -->
+  <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+  <script src="./lib/node_modules/firebase/firebase.js"></script>
+
+  <script src="lib/ionic.native.js"></script>
+
+  <!-- exif bower package -->
+  <script src='./lib/exif-js/exif.js'></script>
+  <script src='./lib/ng-exif/ng-exif.js'></script>
+
+  <!-- cordova script (this will be a 404 during development) -->
+  <script src="cordova.js"></script>
+
+
+  <script src="./app/app.js"></script>
+  <script src="./app/app.config.js"></script>
+
+  <script src="./app/auth/factories/AuthFactory.js"></script>
+  <script src="./app/auth/controllers/AuthCtrl.js"></script>
+  <script src="./app/camera/services/CameraServ.js"></script>
+  <script src="./app/camera/controllers/CameraCtrl.js"></script>
+  <script src="./app/map/controllers/MapCtrl.js"></script>
+  <script src="./app/map/controllers/MarkerCtrl.js"></script>
+  <script src="./app/map/factories/MarkerFactory.js"></script>
+  <script src="./app/dash/controllers/DashCtrl.js"></script>
+
+
+  <!-- google maps javascript -->
+  <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyARwXErWIzPoV0Ka_IrsI_mq8dI1c8mJiY"></script>
+
+  <!-- jquery... i know
+  <script
+  src="https://code.jquery.com/jquery-3.2.1.js"
+  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  crossorigin="anonymous"></script> -->
+
+</head>
+
+<body ng-app="app">
+  <ion-nav-view>
+    <ion-nav-bar ng-controller="AuthCtrl">
+      <ion-nav-buttons side="right">
+          <button class="button" ng-click="logoutUser()">Logout</button>
+      </ion-nav-buttons>
+    </ion-nav-bar>
+  </ion-nav-view>
+
+  <ion-nav-bar class="bar-positive">
+    <ion-nav-back-button>
+    </ion-nav-back-button>
+  </ion-nav-bar>
+
+
+  <script id="templates/tabs.html" type="text/ng-template">
+    <ion-tabs class="tabs-icon-top tabs-color-active-positive">
+      <!-- Auth Tab -->
+      <ion-tab title="Login-Register" icon-off="ion-person" icon-on="ion-person" href="#/tab/auth">
+        <ion-nav-view name="tab-auth"></ion-nav-view>
+      </ion-tab>
+
+      <!-- Home Tab -->
+      <ion-tab title="Home" icon-off="ion-home" icon-on="ion-home" href="#/tab/dash">
+        <ion-nav-view name="tab-dash"></ion-nav-view>
+      </ion-tab>
+
+      <!-- Camera Tab -->
+      <ion-tab title="Camera" icon-off="ion-camera" icon-on="ion-camera" href="#/tab/camera">
+        <ion-nav-view name="tab-camera"></ion-nav-view>
+      </ion-tab>
+
+      <!-- Map Tab -->
+      <ion-tab title="Map" icon-off="ion-map" icon-on="ion-map" href="#/tab/map">
+        <ion-nav-view name="tab-map"></ion-nav-view>
+      </ion-tab>
+    </ion-tabs>
+  </script>
+
+  <!-- <script id="templates/chat-detail.html" type="text/ng-template">
+
+    </script> -->
+
+</body>
+
+</html>

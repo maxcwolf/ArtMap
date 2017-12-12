@@ -1,0 +1,9 @@
+<ion-view view-title="artCAMERA">
+    <ion-content>
+
+        <img ng-src="{{ srcImage }}" id="picTaken" width="350px" height="400px" style="display: block; margin: 0 auto;"/><br/>
+        <button class="button button-block button-positive " ng-click="takePhoto()">Take Image (new build mon 10:04)</button><br/>
+        <button class="button button-block button-positive " ng-click="uploadPhoto({{srcImage || 'img/takePic.png'}}) ">Upload Image</button><br/>
+
+    </ion-content>
+</ion-view>

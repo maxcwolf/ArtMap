@@ -1,0 +1,50 @@
+{
+  "name": "myApp",
+  "version": "0.0.1",
+  "description": "An Ionic project",
+  "devDependencies": {
+    "eslint-grunt": "^1.0.0",
+    "grunt": "^1.0.1",
+    "grunt-contrib-watch": "^1.0.0",
+    "gulp": "^3.5.6",
+    "gulp-clean-css": "^3.7.0",
+    "gulp-rename": "^1.2.0",
+    "gulp-sass": "^3.1.0"
+  },
+  "dependencies": {
+    "@ionic-native/camera": "^4.4.2",
+    "@ionic/pro": "1.0.16",
+    "angular-ui-router": "^0.4.3",
+    "b64-to-blob": "^1.2.19",
+    "com.synconset.ImagePickerExt": "https://github.com/ratkop/-cordova-imagePickerEx.git",
+    "com.synconset.imagepickerExt": "git+https://github.com/ratkop/-cordova-imagePickerEx.git",
+    "cordova-ios": "4.5.4",
+    "cordova-plugin-camera": "^3.0.0",
+    "cordova-plugin-device": "^1.1.4",
+    "cordova-plugin-file": "^5.0.0",
+    "cordova-plugin-ionic-webview": "^1.1.16",
+    "cordova-plugin-splashscreen": "^4.0.3",
+    "cordova-plugin-whitelist": "^1.3.1",
+    "firebase": "^4.7.0",
+    "ionic-native": "^2.9.0",
+    "ionic-plugin-keyboard": "^2.2.1"
+  },
+  "cordova": {
+    "plugins": {
+      "ionic-plugin-keyboard": {},
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-device": {},
+      "cordova-plugin-splashscreen": {},
+      "cordova-plugin-ionic-webview": {},
+      "cordova-plugin-camera": {
+        "CAMERA_USAGE_DESCRIPTION": "your usage message",
+        "PHOTOLIBRARY_USAGE_DESCRIPTION": "your usage message"
+      },
+      "cordova-plugin-file": {},
+      "com.synconset.ImagePickerExt": {}
+    },
+    "platforms": [
+      "ios"
+    ]
+  }
+}
