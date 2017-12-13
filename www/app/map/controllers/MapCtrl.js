@@ -1,6 +1,6 @@
 //MAP FUNCTION
 angular.module('app')
-    .controller('MapCtrl', function ($scope, $compile, Markers) {
+    .controller('MapCtrl', function ($scope, $compile, MarkerFactory) {
         $scope.$on('$ionicView.loaded', function () {
             if (window.google) {
                 if (window.google.maps === undefined) {
@@ -41,14 +41,16 @@ angular.module('app')
 
             var infoWindow = new google.maps.InfoWindow();
 
-            var createMarker = function (marker) {
+            var createMarker = function (markerData) {
                 var marker = new google.maps.Marker({
                     map: $scope.map,
-                    position: new google.maps.LatLng(marker.lat, marker.lng),
-                    title: marker.lastText
+                    position: new google.maps.LatLng(markerData.lat, markerData.long),
+                    artist: markerData.artist,
+                    name: markerData.name,
+                    image: markerData.imgUrl
                 });
-                marker.content = '<div class="infoWindowContent">' + marker.name + '</div>';
-                var contentString = "<div class='infoWindowContent' ng-click='clickTest()'><h3>" + marker.name + "</h3><p>" + marker.lastText + "</div>";
+                marker.content = '<div class="infoWindowContent">' + marker.artist + '</div>';
+                var contentString = `<div class='infoWindowContent' ng-click='clickTest()'><h2>${marker.name}</h2><h3>Artist: ${marker.artist}</h3><img src="${marker.image}" width="70px" height="70px"</div>`;
                 var compiled = $compile(contentString)($scope);
 
                 google.maps.event.addListener(marker, 'click', function () {
@@ -60,21 +62,26 @@ angular.module('app')
                 $scope.bounds.extend(marker.position);
             }
 
-            var markers = Markers.all();
-            if (markers.length > 0) {
-                $scope.bounds = new google.maps.LatLngBounds();
+            let markers = []
+            MarkerFactory.all().then(function(promise) {
+                markers = promise
 
-                for (i = 0; i < markers.length; i++) {
-                    createMarker(markers[i]);
+                console.log("markers is... ", markers)
+                if (markers.length > 0) {
+                    $scope.bounds = new google.maps.LatLngBounds();
+
+                    for (i = 0; i < markers.length; i++) {
+                        createMarker(markers[i]);
+                    }
+
+                    // $scope.map.fitBounds($scope.bounds);
+
+                    $scope.openInfoWindow = function (e, selectedMarker) {
+                        e.preventDefault();
+                        google.maps.event.trigger(selectedMarker, 'click');
+                    }
                 }
-
-                $scope.map.fitBounds($scope.bounds);
-
-                $scope.openInfoWindow = function (e, selectedMarker) {
-                    e.preventDefault();
-                    google.maps.event.trigger(selectedMarker, 'click');
-                }
-            }
+            })
         }
 
     });

@@ -1,7 +1,7 @@
 angular.module('app')
-.controller('MarkersCtrl', function ($scope, Markers) {
-    $scope.markers = Markers.all();
+.controller('MarkersCtrl', function ($scope, MarkerFactory) {
+    $scope.markers = MarkerFactory.all();
     $scope.remove = function (marker) {
-      Markers.remove(marker);
+      MarkerFactory.remove(marker);
     };
   })

@@ -4,6 +4,15 @@ angular.module('app')
 
         let b64Img = ""
 
+        //create scoped object for any text fields on picture
+        $scope.picInput = {
+            "artist": "",
+            "name": ""
+        }
+
+        let lat = ""
+        let long = ""
+        let time = ""
 
         // //EXIF DATA FUNCTIONALITY
         // //utility funct based on https://en.wikipedia.org/wiki/Geographic_coordinate_conversion
@@ -81,9 +90,9 @@ angular.module('app')
                 .getCurrentPosition(geoOptions)
                 .then(function (position) {
                     console.log(JSON.stringify(position))
-                    $scope.lat = position.coords.latitude
-                    $scope.long = position.coords.longitude
-                    $scope.time = position.timestamp
+                    lat = position.coords.latitude
+                    long = position.coords.longitude
+                    time = position.timestamp
             })
 
 
@@ -327,6 +336,9 @@ angular.module('app')
 
 
         $scope.uploadPhoto = function (photo) {
+            //creating empty object for pic data
+            let picData = {}
+
             //CREATING STORAGE REF
             // Points to the root reference
             var storageRef = firebase.storage().ref();
@@ -408,6 +420,7 @@ angular.module('app')
             // Listen for state changes, errors, and completion of the upload.
             uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
                 function (snapshot) {
+
                     // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
                     var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                     console.log('Upload is ' + progress + '% done');
@@ -441,30 +454,30 @@ angular.module('app')
                     var downloadURL = uploadTask.snapshot.downloadURL;
 
 
+                    // Populate the picData object
+                    picData = {
+                        "userId": uid,
+                        "photoId": photoId,
+                        "lat": lat,
+                        "long": long,
+                        "time": time,
+                        "artist": $scope.picInput.artist,
+                        "name": $scope.picInput.name,
+                        "imgUrl": downloadURL
+                    }
+                    console.log("Pic upload complete, uploading picData to database....", JSON.stringify(picData))
+                    //post data to firebase database
+                    CameraFactory.addImg(picData)
+
+                    $scope.srcImage = "../../../img/placeholder.jpg"
+                    $scope.picInput = {
+                        "artist": "",
+                        "name":""
+                    }
                 });
 
 
-                //UPLOAD GEOLOCATION DATA
-                const picData = {
-                    "userId": uid,
-                    "photoId": photoId,
-                    "lat": $scope.lat,
-                    "long": $scope.long,
-                    "time": $scope.time,
-                    "artist": $scope.artist
-                }
 
-                CameraFactory.addImg(picData)
-
-                // var database = firebase.database();
-
-                // database.ref('images/' + photoId).set({
-                //     "userId": uid,
-                //     "lat": $scope.lat,
-                //     "long": $scope.long,
-                //     "time": $scope.time,
-                //     "artist": $scope.artist
-                // });
 
         }
     })
