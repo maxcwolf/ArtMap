@@ -1,0 +1,20 @@
+<ion-modal-view view-title="Register">
+
+    <ion-content  class="padding">
+
+        <h2>Please Register</h2>
+
+        <label class="item item-input">
+            <input type="email" placeholder="Email address" ng-model="auth.email" autofocus>
+        </label>
+        <label class="item item-input">
+            <input type="password" placeholder="Password" ng-model="auth.password">
+        </label>
+        <label class="item item-input">
+            <input type="text" placeholder="Username" ng-model="auth.displayName">
+        </label>
+        <button ng-click="registerUser(auth); closeModal()" class="button button-block button-positive">Register</button>
+        <button ng-click="closeModal()" class="button button-block button-royal">Cancel</button>
+    </ion-content>
+
+</ion-modal-view>

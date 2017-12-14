@@ -67,26 +67,21 @@
 </head>
 
 <body ng-app="app">
-  <ion-nav-view>
-    <ion-nav-bar ng-controller="AuthCtrl">
-      <ion-nav-buttons side="right">
-          <button class="button" ng-click="logoutUser()">Logout</button>
-      </ion-nav-buttons>
-    </ion-nav-bar>
-  </ion-nav-view>
-
-  <ion-nav-bar class="bar-positive">
-    <ion-nav-back-button>
-    </ion-nav-back-button>
+  <ion-nav-bar ng-controller="AuthCtrl" class="bar-positive">
+    <ion-nav-buttons side="right">
+        <button class="button" ng-click="logoutUser()">Logout</button>
+    </ion-nav-buttons>
   </ion-nav-bar>
 
+  <ion-nav-view>
+  </ion-nav-view>
 
   <script id="templates/tabs.html" type="text/ng-template">
     <ion-tabs class="tabs-icon-top tabs-color-active-positive">
       <!-- Auth Tab -->
-      <ion-tab title="Login-Register" icon-off="ion-person" icon-on="ion-person" href="#/tab/auth">
+      <!-- <ion-tab title="Login-Register" icon-off="ion-person" icon-on="ion-person" href="#/tab/auth">
         <ion-nav-view name="tab-auth"></ion-nav-view>
-      </ion-tab>
+      </ion-tab> -->
 
       <!-- Home Tab -->
       <ion-tab title="Home" icon-off="ion-home" icon-on="ion-home" href="#/tab/dash">

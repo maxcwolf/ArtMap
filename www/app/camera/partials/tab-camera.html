@@ -1,5 +1,5 @@
 <ion-view view-title="artCAMERA">
-    <ion-content>
+    <ion-content class="padding">
 
         <img ng-src="{{srcImage || '../../../img/placeholder.jpg'}}" id="picTaken" width="325px" height="325px" style="display: block; margin: 0 auto;"/><br/>
         <div>
@@ -7,7 +7,7 @@
                 <input type="text" placeholder="Artist name" ng-model="picInput.artist">
             </label>
             <label class="item item-input">
-                    <input type="text" placeholder="Name of artwork" ng-model="picInput.name">
+                <input type="text" placeholder="Name of artwork" ng-model="picInput.name">
             </label>
         </div>
         <button class="button button-block button-positive " ng-click="takePhoto()">Take Image</button>

@@ -6,7 +6,7 @@ angular.module("app")
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
             currentUserData = user
-            console.log("User is authenticated")
+            console.log("User is authenticated... ", user)
             $timeout(function () {
                 $state.go('tabs.dash')
             }, 150);
@@ -15,7 +15,7 @@ angular.module("app")
             currentUserData = null
             console.log("User is not authenticated")
             $timeout(function () {
-                $state.go('tabs.auth')
+                $state.go('auth')
             }, 150);
         }
     })
@@ -46,8 +46,16 @@ angular.module("app")
                 firebase.auth()
                         .createUserWithEmailAndPassword(
                             user.email,
-                            user.password
+                            user.password,
                         )
+        },
+        updateProfile: {
+            value: user =>
+                firebase.auth().currentUser
+                    .updateProfile({
+                        displayName: user.displayName,
+                        // photoURL: user.photoURL
+                    })
         }
     })
 })

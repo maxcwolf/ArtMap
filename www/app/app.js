@@ -9,19 +9,15 @@ angular.module('app', ['ionic', 'ionic.native'])
 
     //TAB NAV BAR STATES
     $stateProvider
+      .state('auth', {
+        url: "/auth",
+        templateUrl: "app/auth/partials/tab-auth.html",
+        controller: 'AuthCtrl'
+      })
       .state('tabs', {
         url: "/tab",
         abstract: true,
         templateUrl: "templates/tabs.html"
-      })
-      .state('tabs.auth', {
-        url: "/auth",
-        views: {
-          'tab-auth': {
-            templateUrl: "app/auth/partials/tab-auth.html",
-            controller: 'AuthCtrl'
-          }
-        }
       })
       .state('tabs.dash', {
         url: "/dash",
@@ -29,7 +25,8 @@ angular.module('app', ['ionic', 'ionic.native'])
           'tab-dash': {
             templateUrl: "app/dash/partials/tab-dash.html",
             controller: 'DashCtrl',
-            resolve: { isAuth }
+            authRequired: 'true'
+            // resolve: { isAuth }
           }
         }
       })
@@ -39,7 +36,8 @@ angular.module('app', ['ionic', 'ionic.native'])
           'tab-camera': {
             templateUrl: "app/camera/partials/tab-camera.html",
             controller: 'CameraCtrl',
-            resolve: { isAuth }
+            authRequired: 'true'
+            // resolve: { isAuth }
           }
         }
       })
@@ -59,12 +57,12 @@ angular.module('app', ['ionic', 'ionic.native'])
           'tab-map': {
             templateUrl: "app/map/partials/tab-map.html",
             controller: 'MapCtrl',
-            resolve: { isAuth }
+            authRequired: 'true'
           }
         }
       });
 
     //if no url is specified, bring to auth tab
-    $urlRouterProvider.otherwise("/tab/auth");
+    $urlRouterProvider.otherwise("/auth");
 
   })

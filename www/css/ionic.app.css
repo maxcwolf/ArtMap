@@ -15,6 +15,11 @@ $assertive:                       #ef473a !default;
 $royal:                           #886aea !default;
 $dark:                            #444 !default;
 */
+@font-face {
+  font-family: 'tagtypefreefont';
+  src: url("../lib/ionic/fonts/tagtypefreefont.eot");
+  src: url("../lib/ionic/fonts/tagtypefreefont.eot") format("embedded-opentype"), url("../lib/ionic/fonts/tagtypefreefont.woff2") format("woff2"), url("../lib/ionic/fonts/tagtypefreefont.woff") format("woff"), url("../lib/ionic/fonts/tagtypefreefont.ttf") format("truetype"), url("../lib/ionic/fonts/tagtypefreefont.svg#tagtypefreefont") format("svg"); }
+
 /*!
   Ionicons, v2.0.1
   Created by Ben Sperry for the Ionic Framework, http://ionicons.com/
