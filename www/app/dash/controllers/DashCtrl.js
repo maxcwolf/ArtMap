@@ -1,6 +1,5 @@
 angular.module('app')
-    .controller('DashCtrl', function ($scope, AuthFactory) {
-
+    .controller('DashCtrl', function ($scope) {
 
         //get firebase user data from local storage
         const userKey = Object.keys(window.localStorage)
@@ -11,4 +10,4 @@ angular.module('app')
         $scope.user = user
         console.log($scope.user)
 
-    })
+})

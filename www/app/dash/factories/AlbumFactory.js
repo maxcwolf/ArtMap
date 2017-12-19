@@ -1,18 +1,18 @@
 angular
   .module('app')
-  .factory("MarkerFactory", function ($http, FIREBASE_CONFIG) {
+  .factory("AlbumFactory", function ($http, FIREBASE_CONFIG) {
     return Object.create(null, {
         "cache": {
             value: null,
             writable: true
         },
-        "all": {
-            value: function () {
+        "getUserAlbum": {
+            value: function (uid) {
                 return firebase.auth().currentUser.getIdToken(true)
                 .then(idToken => {
                     return $http({
                         method: "GET",
-                        url: `${FIREBASE_CONFIG.databaseURL}/images/.json?auth=${idToken}`
+                        url: `${FIREBASE_CONFIG.databaseURL}/images/.json?auth=${idToken}&orderBy="userId"&equalTo="${uid}"`
                     }).then(response => {
                         const data = response.data
 
@@ -26,24 +26,16 @@ angular
                 })
             }
         },
-        "single": {
-            value: function (id) {
+        "deletePhotoDb": {
+            value: function(id) {
                 return firebase.auth().currentUser.getIdToken(true)
                 .then(idToken => {
                     return $http({
-                        method: "GET",
+                        method: "DELETE",
                         url: `${FIREBASE_CONFIG.databaseURL}/images/${id}.json?auth=${idToken}`
                     })
                 })
             }
         }
     })
-  })
-            // get: function (markerId) {
-            //   for (var i = 0; i < markers.length; i++) {
-            //     if (markers[i].id === parseInt(markerId)) {
-            //       return markers[i];
-            //     }
-            //   }
-            //   return null;
-            // }
+})

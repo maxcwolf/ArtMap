@@ -20,6 +20,7 @@ angular.module('app', ['ionic', 'ionic.native'])
         templateUrl: "templates/tabs.html"
       })
       .state('tabs.dash', {
+        cache: false,
         url: "/dash",
         views: {
           'tab-dash': {
@@ -27,6 +28,17 @@ angular.module('app', ['ionic', 'ionic.native'])
             controller: 'DashCtrl',
             authRequired: 'true'
             // resolve: { isAuth }
+          }
+        }
+      })
+      .state('tabs.album', {
+        cache: false,
+        url: '/album',
+        views: {
+          'tab-album': {
+            templateUrl: 'app/dash/partials/tab-album.html',
+            controller: 'AlbumCtrl',
+            authRequired: 'true'
           }
         }
       })
@@ -52,6 +64,7 @@ angular.module('app', ['ionic', 'ionic.native'])
       // })
 
       .state('tabs.map', {
+        cache: false,
         url: "/map",
         views: {
           'tab-map': {

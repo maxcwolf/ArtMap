@@ -19,3 +19,9 @@
   h1, h2, h3 {
     font-family: 'tagtypefreefont', sans-serif;
    }
+
+   .button-right{
+    display: block !important;
+    width: 100% !important;
+    text-align:right !important;
+  }

@@ -40,6 +40,7 @@ angular
                             "long": data.long,
                             "time": data.time,
                             "artist": data.artist,
+                            "name": data.name,
                             "imgUrl": data.imgUrl
                         }
                     })

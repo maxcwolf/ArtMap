@@ -1,6 +1,9 @@
 angular.module('app')
 
-    .controller("CameraCtrl", function ($scope, $cordovaCamera, $cordovaFile, $cordovaGeolocation, FileService, CameraFactory) {
+    .controller("CameraCtrl", function ($scope, $cordovaCamera, $cordovaFile, $cordovaGeolocation, FileService, CameraFactory, $ionicLoading) {
+
+         //allow the map to be shown when changing back to the map state
+         $scope.showMap = true
 
         let b64Img = ""
 
@@ -336,6 +339,9 @@ angular.module('app')
 
 
         $scope.uploadPhoto = function (photo) {
+            //show loading spinner
+            $ionicLoading.show();
+
             //creating empty object for pic data
             let picData = {}
 
@@ -474,6 +480,9 @@ angular.module('app')
                         "artist": "",
                         "name":""
                     }
+
+                    //hide loading spinner
+                    $ionicLoading.hide();
                 });
 
 
