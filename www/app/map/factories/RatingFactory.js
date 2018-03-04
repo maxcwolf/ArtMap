@@ -36,12 +36,11 @@ angular
                             url: `${FIREBASE_CONFIG.databaseURL}/ratings/.json?auth=${idToken}`,
                             data: vote
                         })
-                    }
-                    )
+                    })
             }
         },
         "getUserRatings": {
-            value: function (fanUID) {
+            value: function (userId) {
                 return firebase.auth().currentUser.getIdToken(true)
                     .then(idToken => {
                         return $http({
@@ -49,14 +48,14 @@ angular
                             url: `${FIREBASE_CONFIG.databaseURL}/ratings/.json?auth=${idToken}&orderBy="userId"&equalTo="${userId}"`,
                         }).then(response => {
                             response = response.data
-                            let dataArray =
+                            let data =
                                 Object.keys(response)
                                     .map(key => {
                                         response[key].id = key
                                         return response[key]
                                     })
 
-                            return dataArray
+                            return data
                         })
                     }
                 )
@@ -68,7 +67,7 @@ angular
                     .then(idToken => {
                         return $http({
                             method: "PUT",
-                            url: `${FIREBASE_CONFIG.databaseURL}/voteTable/${ratingId}/vote/.json?auth=${idToken}`,
+                            url: `${FIREBASE_CONFIG.databaseURL}/ratings/${ratingId}/vote/.json?auth=${idToken}`,
                             data: vote
                         })
                     }
@@ -81,7 +80,7 @@ angular
                     .then(idToken => {
                         return $http({
                             method: "DELETE",
-                            url: `${FIREBASE_CONFIG.databaseURL}/voteTable/${ratingId}/.json?auth=${idToken}`,
+                            url: `${FIREBASE_CONFIG.databaseURL}/ratings/${ratingId}/.json?auth=${idToken}`,
                         })
                     }
                 )

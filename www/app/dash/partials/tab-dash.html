@@ -1,20 +1,27 @@
 <ion-view view-title="artDASH">
     <ion-content class="padding">
+        <div class="artMapLogo">
+          <img src="img/artmap.png">
+        </div>
         <div class="list card">
-            <div class="item item-divider">Hi {{ user.displayName }}!  Welcome to artMAP</div>
-            <div class="item item-button-left">
+          <div class="item item-divider">
+            <div  class='dashWelcome'>Hi {{ user.displayName }}!</div>
+            <div class='dashWelcome'>Welcome to artMAP</div>
+
+          </div>
+            <div id='dashAlbum' class="item item-button-left">
                     Your artMAP album
                     <button class="button button-positive" ui-sref='tabs.album'>
                       <i class="icon ion-folder"></i>
                     </button>
             </div>
-            <div class="item item-button-left">
+            <div id='dashCam' class="item item-button-left">
                     Post some new art
                     <button class="button button-positive" ui-sref='tabs.camera'>
                       <i class="icon ion-camera"></i>
                     </button>
             </div>
-            <div class="item item-button-left">
+            <div id='dashMap' class="item item-button-left">
                     Checkout art in your area
                     <button class="button button-positive" ui-sref='tabs.map'>
                       <i class="icon ion-map"></i>

@@ -28,7 +28,7 @@
     <preference name="iosPersistentFileLocation" value="Library" />
     <preference name="iosExtraFilesystems" value="library,library-nosync,documents,documents-nosync,cache,bundle,root" />
     <preference name="CameraUsesGeolocation" value="true" />
-    <preference name="StatusBarBackgroundColor" value="#387ef5" />
+    <preference name="StatusBarBackgroundColor" value="#3b4358" />
     <preference name="StatusBarStyle" value="lightcontent" />
     <preference name="StatusBarOverlaysWebView" value="true" />
     <platform name="android">

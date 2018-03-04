@@ -4,24 +4,76 @@
     height: 100%;
   }
 
-  .map img {
-      max-width: none;
-  }
-  .scroll {
-    height: 100%;
+.map img {
+    max-width: none;
+}
+.scroll {
+  height: 100%;
+}
+
+.friend-map {
+  color: red;
+
+}
+
+h1, a, .dashWelcome, #dashAlbum, #dashMap, #dashCam, .title {
+  font-family: 'amsterdam_graffitiregular', sans-serif;
   }
 
-  .friend-map {
-    color: red;
+/* #albumArtist, #albumTitle, #modalArtist, #modalTitle {
+  font-size: 1.5em;
+} */
 
-  }
+.dashWelcome, .title {
+  font-size: 2em;
+  text-align: center;
+}
+#modalReg {
+  font-size: 3em;
+}
 
-  h1, h2, h3 {
-    font-family: 'tagtypefreefont', sans-serif;
-   }
+#dashAlbum, #dashMap, #dashCam {
+  font-size: 1.5em;
+}
 
-   .button-right{
-    display: block !important;
-    width: 100% !important;
-    text-align:right !important;
-  }
+#authWelcome {
+  font-size: 4em;
+  text-align: center;
+}
+
+#authLogin, #authReg {
+  font-size: 1.2em;
+}
+
+.button-right{
+  display: block !important;
+  width: 100% !important;
+  text-align:right !important;
+}
+
+.tabs-icon-top {
+  margin-bottom: constant(safe-area-inset-bottom);
+}
+
+.artMapLogo {
+  margin: auto;
+  text-align: center;
+}
+
+@font-face {
+  font-family: 'tagtyperegular';
+  src: url('fonts/tagtype-freefont-webfont.woff2') format('woff2'),
+       url('fonts/tagtype-freefont-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'amsterdam_graffitiregular';
+  src: url('fonts/amsterdam-webfont.woff2') format('woff2'),
+       url('fonts/amsterdam-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}

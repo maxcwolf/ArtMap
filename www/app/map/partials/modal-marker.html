@@ -10,15 +10,15 @@
 
                 <div class="item item-avatar">
                     <img src="../../img/profile-placeholder.jpg">
-                    <h2>Title: {{modal.name}}</h2>
-                    <p>Artist: {{modal.artist}}</p>
+                    <h2 id='modalTitle'>Title: {{modal.name}}</h2>
+                    <p id='modalArtist'>Artist: {{modal.artist}}</p>
                 </div>
 
                 <div class="item item-image">
                     <img ng-src="{{modal.imgUrl || null}}">
                 </div>
 
-                <a class="item item-icon-left assertive">
+                <a id='modalLikes' class="item item-icon-left assertive">
                     <i class="icon ion-thumbsup"></i>
                     10 likes
                 </a>
