@@ -4,10 +4,10 @@ A multi-user photograph geomapping iPhone app.
 ## Motivation
 Have you ever wanted to see where all the best street art and graffiti was located in your city?  Now you can with artMAP!
 
-Whenever I moved to a new city, I love discovering where all the great art is located.
+Whenever I move to a new city, I love discovering where all the great art is located. Now you can share your discoveries, and if you're the artist, share your own creations with other art lovers.
 
 ## Screenshots
-Include logo/demo screenshot etc.
+Will include logo/demo screenshot etc.
 
 ## Tech/framework used
 
@@ -30,26 +30,17 @@ Include logo/demo screenshot etc.
 - Users can see an instagram style list of their posts and delete each post.
 
 
-## Code Example
-Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
-
 ## Installation
-Provide step by step series of examples and explanations about how to get a development env running.
+
 
 ## How to use?
-If people like your project they’ll want to learn how they can use it. To do so include step by step guide to use your project.
-
-## Contribute
-
-Let people know how they can contribute into your project. A [contributing guideline](https://github.com/zulip/zulip-electron/blob/master/CONTRIBUTING.md) will be a big plus.
-
-## Credits
-Give proper credits. This could be a link to any repo which inspired you to build this project, any blogposts or links to people who contrbuted in this project.
+- Once you have the app running on your iPhone, register a new account by clicking the 'register' button on the home screen.
+- Take new photos on the 'Camera' screen. Enter the artist's name and the name of the artwork and click 'Upload'. Your post will now be visible to all artMAP users.
+- To look at all art posted to artMAP, go to the 'Map' screen. Touch on map markers to view each post. Tap on each pop up window to view the post in a full screen modal.
+- To view the album of your posts, navigate to the 'Album' screen. There you can delete each of your posts.
 
 ## Future Plans
+- Rewrite the app using React Native.
 - Add the ability for users to comment on posts, with a possible upvote and downvote system.
 - Facebook authentication and user profile images.
 - Ability to plan an art trip which will navigate you along a path connecting the art pieces that you select.
-
-## License
-MIT © [Max Wolf]()
