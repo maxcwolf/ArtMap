@@ -16,14 +16,20 @@ angular.module('app')
       // $state.go('auth')
     }
 
-    $scope.registerUser = function(registerNewUser) {
-      AuthFactory
-        .registerWithEmail(registerNewUser)
-        .then(function(){
-          AuthFactory.updateProfile($scope.auth)
-        })
+    $scope.registerUser = function (auth) {
+      AuthFactory.postUser(auth).then(res => {
 
-    }
+      })
+  }
+
+    // $scope.registerUser = function(registerNewUser) {
+    //   AuthFactory
+    //     .registerWithEmail(registerNewUser)
+    //     .then(function(){
+    //       AuthFactory.updateProfile($scope.auth)
+    //     })
+
+    // }
 
     $ionicModal.fromTemplateUrl('app/auth/partials/modal-reg.html', {
       scope: $scope,
