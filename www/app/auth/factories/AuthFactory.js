@@ -14,6 +14,15 @@ angular.module("app")
                     console.log("TOKEN", data)
                 })
             }
+        },
+        "getUser": {
+            value: function () {
+                console.log('getting user')
+                return $http({
+                    "url": "http://localhost:5000/api/token",
+                    "method": "GET"
+                })
+            }
         }
     })
 
