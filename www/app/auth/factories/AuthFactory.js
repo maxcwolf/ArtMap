@@ -10,17 +10,8 @@ angular.module("app")
                     'Accepts': 'application/json',
                     'params': auth
                 }).then(data => {
-                    localStorage.setItem("token", data.data);
+                    localStorage.setItem("token", JSON.stringify(data.data)); //the token object needs to be strigified to store properly in local storage, or else it will ust be [Object object]
                     console.log("TOKEN", data)
-                })
-            }
-        },
-        "getUser": {
-            value: function () {
-                console.log('getting user')
-                return $http({
-                    "url": "http://localhost:5000/api/token",
-                    "method": "GET"
                 })
             }
         }

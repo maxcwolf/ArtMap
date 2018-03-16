@@ -1,11 +1,12 @@
 angular.module('app')
     .controller('AlbumCtrl', function ($scope, $timeout, AlbumFactory) {
 
-        //get firebase user data from local storage
-        const userKey = Object.keys(window.localStorage)
-            .filter(it => it.startsWith('firebase:authUser'))[0];
-        //get all the user info as an object
-        const user = userKey ? JSON.parse(localStorage.getItem(userKey)) : undefined;
+        //get the token object from local storage that is created at login by the server
+        const token = JSON.parse(localStorage.getItem("token"))
+
+        //get the UserId from the token object
+        const user = token.UserId
+
         //get just the uid of the user
 
         $scope.album = []
