@@ -8,6 +8,19 @@ angular
         },
         "getUserAlbum": {
             value: function (uid) {
+
+                return $http({
+                    "url": `http://localhost:5000/api/posts/1`,
+                    "method": "GET"
+                }).then(response => {
+                    const data = response.data
+                    return data
+                    console.log("Album response: ", data)
+                })
+            }
+        },
+        "getUserAlbum_": {
+            value: function (uid) {
                 return firebase.auth().currentUser.getIdToken(true)
                 .then(idToken => {
                     return $http({

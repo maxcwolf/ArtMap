@@ -4,6 +4,7 @@ angular.module("app")
     return Object.create(null, {
         "postUser": {
             value: function (auth) {
+                debugger
                 return $http({
                     "url": "http://localhost:5000/api/token",
                     "method": "POST",

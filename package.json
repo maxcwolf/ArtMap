@@ -16,6 +16,7 @@
     "@ionic-native/geolocation": "^4.5.2",
     "@ionic/pro": "1.0.16",
     "angular-route": "^1.6.9",
+    "angular-toarrayfilter": "^1.0.3",
     "angular-ui-router": "^0.4.3",
     "b64-to-blob": "^1.2.19",
     "com.synconset.ImagePickerExt": "https://github.com/ratkop/-cordova-imagePickerEx.git",

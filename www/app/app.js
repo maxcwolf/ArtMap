@@ -1,4 +1,4 @@
-angular.module('app', ['ionic', 'ionic.native'])
+angular.module('app', ['ionic', 'ionic.native', 'angular-toArrayFilter'])
 
   .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $compileProvider) {
     //maybe gets images sanitized?

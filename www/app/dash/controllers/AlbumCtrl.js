@@ -7,12 +7,13 @@ angular.module('app')
         //get the UserId from the token object
         const user = token.UserId
 
+        console.log(user)
         //get just the uid of the user
 
         $scope.album = []
 
         const getAlbums = function () {
-            AlbumFactory.getUserAlbum(user.uid).then(function(response) {
+            AlbumFactory.getUserAlbum(user).then(function(response) {
             $timeout(console.log("waiting for photo"), 300) // <-- this sucks
             $scope.album = response
 

@@ -1,16 +1,16 @@
 
 <ion-view view-title="artALBUM">
     <ion-content class="padding">
-            <div class="list card" ng-repeat="photo in album | orderBy: '-time'">
+            <div class="list card" ng-repeat="photo in album | toArray | orderBy: '-time'">
                 <div  id="{{photo.id}}">
                     <div class="item item-avatar">
                         <img src="../../img/profile-placeholder.jpg">
-                        <h2 id='albumTitle'>Title: {{photo.name}}</h2>
-                        <p id='albumArtist'>Artist: {{photo.artist}}</p>
+                        <h2 id='albumTitle'>Title: {{photo.Title}}</h2>
+                        <p id='albumArtist'>Artist: {{photo.Artist}}</p>
                     </div>
 
                     <div class="item item-image">
-                        <img ng-src="{{photo.imgUrl || null}}">
+                        <img ng-src="{{photo.photoURI || null}}">
                     </div>
 
                     <a class="item item-icon-left assertive">
