@@ -19,7 +19,7 @@ angular
                 })
             }
         },
-        "getUserAlbum_": {
+        "OLD_getUserAlbum_REMOVE IN PRODUCTION": {
             value: function (uid) {
                 return firebase.auth().currentUser.getIdToken(true)
                 .then(idToken => {
@@ -40,6 +40,15 @@ angular
             }
         },
         "deletePhotoDb": {
+            value: function (id) {
+
+                return $http({
+                    "url": `http://localhost:5000/api/posts/${id}"`,
+                    "method": "DELETE"
+                })
+            }
+        },
+        "OLD_deletePhotoDb REMOVE IN PRODUCTION": {
             value: function(id) {
                 return firebase.auth().currentUser.getIdToken(true)
                 .then(idToken => {
