@@ -43,7 +43,7 @@ angular
             value: function (id) {
 
                 return $http({
-                    "url": `http://localhost:5000/api/posts/${id}"`,
+                    "url": `http://localhost:5000/api/posts/${id}`,
                     "method": "DELETE"
                 })
             }
