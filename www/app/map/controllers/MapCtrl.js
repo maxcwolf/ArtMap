@@ -61,9 +61,9 @@ angular.module('app')
                     map: $scope.map,
                     position: new google.maps.LatLng(markerData.lat, markerData.long),
                     artist: markerData.artist,
-                    name: markerData.name,
-                    image: markerData.imgUrl,
-                    id: markerData.id
+                    name: markerData.title,
+                    image: markerData.photoURI,
+                    id: markerData.postId
                 });
 
                 console.log("marker.id is...", marker.id)

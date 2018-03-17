@@ -8,6 +8,18 @@ angular
         },
         "all": {
             value: function () {
+                return $http({
+                    "url": "http://localhost:5000/api/posts",
+                    "method": "GET"
+                }).then(response => {
+                    const data = response.data
+                    return data
+                    console.log("Album response: ", data)
+                })
+            }
+        },
+        "OLD_all": {
+            value: function () {
                 return firebase.auth().currentUser.getIdToken(true)
                 .then(idToken => {
                     return $http({
@@ -27,6 +39,14 @@ angular
             }
         },
         "single": {
+            value: function (id) {
+                return $http({
+                    "url": `http://localhost:5000/api/posts/${id}`,
+                    "method": "GET"
+                })
+            }
+        },
+        "OLD_single": {
             value: function (id) {
                 return firebase.auth().currentUser.getIdToken(true)
                 .then(idToken => {
