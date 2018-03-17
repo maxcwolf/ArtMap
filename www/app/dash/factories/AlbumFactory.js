@@ -47,17 +47,6 @@ angular
                     "method": "DELETE"
                 })
             }
-        },
-        "OLD_deletePhotoDb REMOVE IN PRODUCTION": {
-            value: function(id) {
-                return firebase.auth().currentUser.getIdToken(true)
-                .then(idToken => {
-                    return $http({
-                        method: "DELETE",
-                        url: `${FIREBASE_CONFIG.databaseURL}/images/${id}.json?auth=${idToken}`
-                    })
-                })
-            }
         }
     })
 })
