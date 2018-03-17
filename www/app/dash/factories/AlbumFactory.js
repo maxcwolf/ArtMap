@@ -10,7 +10,7 @@ angular
             value: function (uid) {
 
                 return $http({
-                    "url": `http://localhost:5000/api/posts/1`,
+                    "url": `http://localhost:5000/api/posts?orderBy="UserId"&equalTo="${uid}"`,
                     "method": "GET"
                 }).then(response => {
                     const data = response.data
