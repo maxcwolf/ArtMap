@@ -4,7 +4,7 @@ angular.module("app")
     return Object.create(null, {
         "postUser": {
             value: function (auth) {
-                debugger
+
                 return $http({
                     "url": "http://localhost:5000/api/token",
                     "method": "POST",
@@ -14,6 +14,14 @@ angular.module("app")
                     localStorage.setItem("token", JSON.stringify(data.data)); //the token object needs to be strigified to store properly in local storage, or else it will ust be [Object object]
                     console.log("TOKEN", data)
                 })
+            }
+        },
+        "logout": {
+            value: function () {
+                //remove the token object from local storage
+                localStorage.removeItem('token')
+                //go back to login screen
+                $state.go('auth')
             }
         }
     })

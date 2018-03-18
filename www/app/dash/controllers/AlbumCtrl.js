@@ -5,25 +5,30 @@ angular.module('app')
         const token = JSON.parse(localStorage.getItem("token"))
 
         //get the UserId from the token object
-        const user = token.UserId
+        const uid = token.UserId
 
-        console.log(user)
+        console.log(uid)
         //get just the uid of the user
 
         $scope.album = []
 
-        const getAlbums = function () {
-            AlbumFactory.getUserAlbum(user).then(function(response) {
+        const getAlbums = function (userid) {
+            AlbumFactory.getUserAlbum(userid).then(function(response) {
             $timeout(console.log("waiting for photo"), 300) // <-- this sucks
-            $scope.album = response
 
-            console.log(response)
+            //filter the response to only contain the posts of the logged in user
+            const userAlbum = response.find(function (obj) { return obj.userId === userid; });
+            $scope.album.push(userAlbum)
+
+            // $scope.album = response
+
+            console.log(userAlbum)
 
 
             })
         }
 
-        $timeout(getAlbums, 50)
+        $timeout(getAlbums(uid), 50)
 
 
         console.log(" 2nd call album is", $scope.album)

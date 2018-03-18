@@ -1,9 +1,9 @@
 angular.module('app')
 
-    .controller("CameraCtrl", function ($scope, $cordovaCamera, $cordovaFile, $cordovaGeolocation, FileService, CameraFactory, $ionicLoading) {
+    .controller("CameraCtrl", function ($scope, $cordovaCamera, $cordovaFile, $cordovaGeolocation, FileService, CameraFactory, $ionicLoading, $cordovaFileTransfer) {
 
-         //allow the map to be shown when changing back to the map state
-         $scope.showMap = true
+        //allow the map to be shown when changing back to the map state
+        $scope.showMap = true
 
         let b64Img = ""
 
@@ -15,7 +15,6 @@ angular.module('app')
 
         let lat = ""
         let long = ""
-        let time = ""
 
         $scope.srcImage = "";
         $scope.takePhoto = function () {
@@ -38,7 +37,7 @@ angular.module('app')
                 .then(function (imageData) {
                     $scope.srcImage = "data:image/jpeg;base64," + imageData;
                     b64Img = imageData;
-            })
+                })
 
             const geoOptions = {
                 enableHighAccuracy: true
@@ -50,8 +49,7 @@ angular.module('app')
                     console.log(JSON.stringify(position))
                     lat = position.coords.latitude
                     long = position.coords.longitude
-                    time = position.timestamp
-            })
+                })
 
         }
 
@@ -97,26 +95,12 @@ angular.module('app')
             //creating empty object for pic data
             let picData = {}
 
-            //CREATING STORAGE REF
-            // Points to the root reference
-            var storageRef = firebase.storage().ref();
 
-            // Points to 'images'
-            var imagesRef = storageRef.child('images');
 
             // Points to 'images/space.jpg'
             // Note that you can use variables to create child values
             var fileName = 'space.jpg';
-            var ref = imagesRef.child(fileName);
 
-            // File path is 'images/space.jpg'
-            var path = ref.fullPath
-
-            // File name is 'space.jpg'
-            var name = ref.name
-
-            // Points to 'images'
-            var imagesRef = ref.parent;
 
 
             //UPLOAD PHOTO
@@ -130,14 +114,11 @@ angular.module('app')
 
             const photoId = uidGenerator()
 
+            //get the token object from local storage that is created at login by the server
+            const token = JSON.parse(localStorage.getItem("token"))
 
-            //get firebase user data from local storage
-            const userKey = Object.keys(window.localStorage)
-                .filter(it => it.startsWith('firebase:authUser'))[0];
-            //get all the user info as an object
-            const user = userKey ? JSON.parse(localStorage.getItem(userKey)) : undefined;
-            //get just the uid of the user
-            const uid = user.uid
+            //get the UserId from the token object
+            const uid = token.UserId
 
             //convert b64 to blob
             const b64toBlob = (b64Data, contentType = '', sliceSize = 512) => {
@@ -166,76 +147,35 @@ angular.module('app')
             const blob = b64toBlob(b64Img, contentType);
             const blobUrl = URL.createObjectURL(blob);
 
-            // Create the file metadata... doesnt work
-            var metadata = {
-                "photo_id": photoId,
+            $cordovaFileTransfer.upload('http://localhost:5000/api/posts', blob)
+                .then(
 
-            };
+                    function (result) { },
+                    function (err) { },
+                    function (progress) { },
+                    function () {
+                        // Populate the picData object
+                        picData = {
+                            "userId": uid,
+                            "photoId": photoId,
+                            "lat": lat,
+                            "long": long,
+                            "artist": $scope.picInput.artist,
+                            "title": $scope.picInput.title
+                        }
+                        console.log("Pic upload complete, uploading picData to database....", JSON.stringify(picData))
+                        //post data to firebase database
+                        CameraFactory.addImg(picData)
 
-            // Upload blob to the object 'images/mountains.jpg'
-            var uploadTask = storageRef.child('images/' + photoId).put(blob, metadata);
+                        $scope.srcImage = "../../../img/placeholder.jpg"
+                        $scope.picInput = {
+                            "artist": "",
+                            "name": ""
+                        }
 
-            // Listen for state changes, errors, and completion of the upload.
-            uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
-                function (snapshot) {
-
-                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    console.log('Upload is ' + progress + '% done');
-                    switch (snapshot.state) {
-                        case firebase.storage.TaskState.PAUSED: // or 'paused'
-                            console.log('Upload is paused');
-                            break;
-                        case firebase.storage.TaskState.RUNNING: // or 'running'
-                            console.log('Upload is running');
-                            break;
-                    }
-                }, function (error) {
-
-                    // A full list of error codes is available at
-                    // https://firebase.google.com/docs/storage/web/handle-errors
-                    switch (error.code) {
-                        case 'storage/unauthorized':
-                            // User doesn't have permission to access the object
-                            break;
-
-                        case 'storage/canceled':
-                            // User canceled the upload
-                            break;
-
-                        case 'storage/unknown':
-                            // Unknown error occurred, inspect error.serverResponse
-                            break;
-                    }
-                }, function () {
-                    // Upload completed successfully, now we can get the download URL
-                    var downloadURL = uploadTask.snapshot.downloadURL;
-
-
-                    // Populate the picData object
-                    picData = {
-                        "userId": uid,
-                        "photoId": photoId,
-                        "lat": lat,
-                        "long": long,
-                        "time": time,
-                        "artist": $scope.picInput.artist,
-                        "name": $scope.picInput.name,
-                        "imgUrl": downloadURL
-                    }
-                    console.log("Pic upload complete, uploading picData to database....", JSON.stringify(picData))
-                    //post data to firebase database
-                    CameraFactory.addImg(picData)
-
-                    $scope.srcImage = "../../../img/placeholder.jpg"
-                    $scope.picInput = {
-                        "artist": "",
-                        "name":""
-                    }
-
-                    //hide loading spinner
-                    $ionicLoading.hide();
-                });
+                        //hide loading spinner
+                        $ionicLoading.hide();
+                    });
 
 
 
