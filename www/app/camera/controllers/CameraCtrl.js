@@ -2,6 +2,20 @@ angular.module('app')
 
     .controller("CameraCtrl", function ($scope, $cordovaCamera, $cordovaFile, $cordovaGeolocation, FileService, CameraFactory, $ionicLoading, $cordovaFileTransfer) {
 
+        $scope.add = function(data) {
+            var f = document.getElementById('file').files[0],
+                r = new FileReader();
+
+            r.onloadend = function(e) {
+              var data = e.target.result;
+              //send your binary data via $http or $resource or do anything else with it
+              CameraFactory.addImg   (data)
+            }
+
+            r.readAsBinaryString(f);
+        }
+
+
         //allow the map to be shown when changing back to the map state
         $scope.showMap = true
 
@@ -15,10 +29,11 @@ angular.module('app')
 
         let lat = ""
         let long = ""
+        let time = ""
 
         $scope.srcImage = "";
         $scope.takePhoto = function () {
-
+            console.log('takephoto called')
             const picOptions = {
                 quality: 50,
                 destinationType: Camera.DestinationType.DATA_URL,
@@ -37,7 +52,7 @@ angular.module('app')
                 .then(function (imageData) {
                     $scope.srcImage = "data:image/jpeg;base64," + imageData;
                     b64Img = imageData;
-                })
+            })
 
             const geoOptions = {
                 enableHighAccuracy: true
@@ -49,7 +64,9 @@ angular.module('app')
                     console.log(JSON.stringify(position))
                     lat = position.coords.latitude
                     long = position.coords.longitude
-                })
+                    time = position.timestamp
+            })
+
 
         }
 
@@ -147,7 +164,7 @@ angular.module('app')
             const blob = b64toBlob(b64Img, contentType);
             const blobUrl = URL.createObjectURL(blob);
 
-            $cordovaFileTransfer.upload('http://localhost:5000/api/posts', blob)
+            $cordovaFileTransfer.upload('http://7670056c.ngrok.io/api/posts', blob)
                 .then(
 
                     function (result) { },

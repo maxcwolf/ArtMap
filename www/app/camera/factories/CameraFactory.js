@@ -11,7 +11,7 @@ angular
 
                     return $http({
                         method: "POST",
-                        url: `http://localhost:5000/api/posts`,
+                        url: `http://7670056c.ngrok.io/api/posts`,
                         data: {
                             "userId": data.userId,
                             "photoId": data.photoId,
@@ -20,6 +20,16 @@ angular
                             "artist": data.artist,
                             "title": data.title
                         }
+                    })
+                }
+            },
+            "addImgData": {
+                value: function (data) {
+
+                    return $http({
+                        method: "POST",
+                        url: `http://7670056c.ngrok.io/posts`,
+                        data: data
                     })
                 }
             }

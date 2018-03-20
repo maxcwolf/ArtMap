@@ -10,7 +10,7 @@ angular
             value: function (uid) {
 
                 return $http({
-                    "url": `http://localhost:5000/api/posts?orderBy="UserId"&equalTo="${uid}"`, //?orderBy="UserId"&equalTo="${uid}"
+                    "url": `http://7670056c.ngrok.io/api/posts?orderBy="UserId"&equalTo="${uid}"`, //?orderBy="UserId"&equalTo="${uid}"
                     "method": "GET"
                 }).then(response => {
                     const data = response.data

@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@ionic-native/camera": "^4.5.2",
+    "@ionic-native/core": "^4.2.0",
     "@ionic-native/geolocation": "^4.5.2",
     "@ionic/pro": "1.0.16",
     "angular-route": "^1.6.9",

@@ -6,7 +6,7 @@ angular.module("app")
             value: function (auth) {
 
                 return $http({
-                    "url": "http://localhost:5000/api/token",
+                    "url": "http://7670056c.ngrok.io/api/token",
                     "method": "POST",
                     'Accepts': 'application/json',
                     'params': auth
