@@ -8,7 +8,6 @@ angular.module('app')
         const uid = token.UserId
 
         console.log(uid)
-        //get just the uid of the user
 
         $scope.album = []
 

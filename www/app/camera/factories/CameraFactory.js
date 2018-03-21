@@ -1,6 +1,6 @@
 angular
     .module("app")
-    .factory("CameraFactory", function ($http) {
+    .factory("CameraFactory", function ($http, API) {
         return Object.create(null, {
             "cache": {
                 value: null,
@@ -8,10 +8,11 @@ angular
             },
             "addImg": {
                 value: function (data) {
+                    console.log('add image factory running...  data:', JSON.stringify(data))
 
                     return $http({
                         method: "POST",
-                        url: `http://7670056c.ngrok.io/api/posts`,
+                        url: `${API.URL}/api/posts`,
                         data: {
                             "userId": data.userId,
                             "photoId": data.photoId,
@@ -27,12 +28,9 @@ angular
             "addImgData": {
                 value: function (data, name) {
 
-                    console.log("DATA:  ", data)
-                    console.log("NAME:  ", name)
-
                     return $http({
                         method: "POST",
-                        url: `http://7670056c.ngrok.io/api/posts/upload`,
+                        url: `${API.URL}/api/posts/upload`,
                         data: {
                             "ImgStr": data,
                             "ImgName": name

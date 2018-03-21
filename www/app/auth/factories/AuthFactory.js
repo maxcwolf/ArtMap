@@ -1,12 +1,12 @@
 angular.module("app")
 
-.factory("AuthFactory", function ($state, $http, $timeout, $location) {
+.factory("AuthFactory", function ($state, $http, $timeout, $location, API) {
     return Object.create(null, {
         "postUser": {
             value: function (auth) {
 
                 return $http({
-                    "url": "http://7670056c.ngrok.io/api/token",
+                    "url": `${API.URL}/api/token`,
                     "method": "POST",
                     'Accepts': 'application/json',
                     'params': auth

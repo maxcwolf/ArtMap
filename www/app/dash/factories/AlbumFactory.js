@@ -1,6 +1,6 @@
 angular
   .module('app')
-  .factory("AlbumFactory", function ($http, FIREBASE_CONFIG) {
+  .factory("AlbumFactory", function ($http, FIREBASE_CONFIG, API) {
     return Object.create(null, {
         "cache": {
             value: null,
@@ -10,7 +10,7 @@ angular
             value: function (uid) {
 
                 return $http({
-                    "url": `http://7670056c.ngrok.io/api/posts?orderBy="UserId"&equalTo="${uid}"`, //?orderBy="UserId"&equalTo="${uid}"
+                    "url": `${API.URL}/api/posts?orderBy="UserId"&equalTo="${uid}"`, //?orderBy="UserId"&equalTo="${uid}"
                     "method": "GET"
                 }).then(response => {
                     const data = response.data
