@@ -14,15 +14,10 @@ angular.module('app')
         const getAlbums = function (userid) {
             AlbumFactory.getUserAlbum(userid).then(function(response) {
             $timeout(console.log("waiting for photo"), 300) // <-- this sucks
-
+            console.log(JSON.stringify(response))
             //filter the response to only contain the posts of the logged in user
-            const userAlbum = response.find(function (obj) { return obj.userId === userid; });
-            $scope.album.push(userAlbum)
-
-            // $scope.album = response
-
-            console.log(userAlbum)
-
+            const userAlbum = response.filter(obj => obj.userId === userid);
+            $scope.album = userAlbum
 
             })
         }

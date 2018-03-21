@@ -1,6 +1,6 @@
 angular
   .module('app')
-  .factory("MarkerFactory", function ($http, FIREBASE_CONFIG) {
+  .factory("MarkerFactory", function ($http, API) {
     return Object.create(null, {
         "cache": {
             value: null,
@@ -9,7 +9,7 @@ angular
         "all": {
             value: function () {
                 return $http({
-                    "url": "http://localhost:5000/api/posts",
+                    "url": `${API.URL}/api/posts`,
                     "method": "GET"
                 }).then(response => {
                     const data = response.data
@@ -41,7 +41,7 @@ angular
         "single": {
             value: function (id) {
                 return $http({
-                    "url": `http://localhost:5000/api/posts/${id}`,
+                    "url": `${API.URL}/api/posts/${id}`,
                     "method": "GET"
                 })
             }

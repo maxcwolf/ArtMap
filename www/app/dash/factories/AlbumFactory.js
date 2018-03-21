@@ -10,32 +10,12 @@ angular
             value: function (uid) {
 
                 return $http({
-                    "url": `${API.URL}/api/posts?orderBy="UserId"&equalTo="${uid}"`, //?orderBy="UserId"&equalTo="${uid}"
+                    "url": `${API.URL}/api/posts`, //?orderBy="UserId"&equalTo="${uid}"
                     "method": "GET"
                 }).then(response => {
                     const data = response.data
                     return data
-                    console.log("Album response: ", data)
-                })
-            }
-        },
-        "OLD_getUserAlbum_REMOVE IN PRODUCTION": {
-            value: function (uid) {
-                return firebase.auth().currentUser.getIdToken(true)
-                .then(idToken => {
-                    return $http({
-                        method: "GET",
-                        url: `${FIREBASE_CONFIG.databaseURL}/images/.json?auth=${idToken}&orderBy="userId"&equalTo="${uid}"`
-                    }).then(response => {
-                        const data = response.data
-
-                        this.cache = Object.keys(data).map(key => {
-                            data[key].id = key
-                            return data[key]
-                        })
-
-                        return this.cache
-                    })
+                    console.log("Album response: ", JSON.stringify(data))
                 })
             }
         },
