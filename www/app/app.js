@@ -47,7 +47,7 @@ angular.module('app', ['ionic', 'ionic.native', 'angular-toArrayFilter'])
         views: {
           'tab-camera': {
             templateUrl: "app/camera/partials/tab-camera.html",
-            controller: 'CameraCtrl',
+            controller: 'CameraCtrl2',
             authRequired: 'true'
             // resolve: { isAuth }
           }
