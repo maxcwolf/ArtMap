@@ -6,21 +6,21 @@
     </ion-header-bar>
 
     <ion-content class="padding">
-        <div class="card" id="{{modal.id}}">
+        <div class="card" id="{{modal.postId}}">
 
                 <div class="item item-avatar">
                     <img src="../../img/profile-placeholder.jpg">
-                    <h2 id='modalTitle'>Title: {{modal.name}}</h2>
+                    <h2 id='modalTitle'>Title: {{modal.title}}</h2>
                     <p id='modalArtist'>Artist: {{modal.artist}}</p>
                 </div>
 
                 <div class="item item-image">
-                    <img ng-src="{{modal.imgUrl || null}}">
+                    <img ng-src="{{modal.photoURI || null}}">
                 </div>
 
                 <a id='modalLikes' class="item item-icon-left assertive">
                     <i class="icon ion-thumbsup"></i>
-                    10 likes
+                    {{modal.likesCount}} likes
                 </a>
                 <!-- <i class="ion-ios-close-outline popuoclose " ng-click="closeModalMarker()"></i> -->
         </div>

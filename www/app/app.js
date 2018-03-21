@@ -1,4 +1,4 @@
-angular.module('app', ['ionic', 'ionic.native'])
+angular.module('app', ['ionic', 'ionic.native', 'angular-toArrayFilter'])
 
   .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $compileProvider) {
     //maybe gets images sanitized?
@@ -47,7 +47,7 @@ angular.module('app', ['ionic', 'ionic.native'])
         views: {
           'tab-camera': {
             templateUrl: "app/camera/partials/tab-camera.html",
-            controller: 'CameraCtrl',
+            controller: 'CameraCtrl2',
             authRequired: 'true'
             // resolve: { isAuth }
           }
@@ -75,7 +75,21 @@ angular.module('app', ['ionic', 'ionic.native'])
         }
       });
 
+
     //if no url is specified, bring to auth tab
     $urlRouterProvider.otherwise("/auth");
 
   })
+  //This runs before all API calls.
+  .factory('httpRequestInterceptor', function () {
+    return {
+        request: function (config) {
+            config.headers['Authorization'] = `Bearer ${localStorage.getItem("token")}`;
+            config.headers['Accept'] = 'application/json;odata=verbose';
+            return config;
+        }
+    };
+});
+angular.module('app').config(function ($httpProvider) {
+    $httpProvider.interceptors.push('httpRequestInterceptor');
+});

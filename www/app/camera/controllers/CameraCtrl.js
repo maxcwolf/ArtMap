@@ -1,9 +1,23 @@
 angular.module('app')
 
-    .controller("CameraCtrl", function ($scope, $cordovaCamera, $cordovaFile, $cordovaGeolocation, FileService, CameraFactory, $ionicLoading) {
+    .controller("CameraCtrl", function ($scope, $cordovaCamera, $cordovaFile, $cordovaGeolocation, FileService, CameraFactory, $ionicLoading, $cordovaFileTransfer) {
 
-         //allow the map to be shown when changing back to the map state
-         $scope.showMap = true
+        $scope.add = function(data) {
+            var f = document.getElementById('file').files[0],
+                r = new FileReader();
+
+            r.onloadend = function(e) {
+              var data = e.target.result;
+              //send your binary data via $http or $resource or do anything else with it
+              CameraFactory.addImg   (data)
+            }
+
+            r.readAsBinaryString(f);
+        }
+
+
+        //allow the map to be shown when changing back to the map state
+        $scope.showMap = true
 
         let b64Img = ""
 
@@ -17,54 +31,9 @@ angular.module('app')
         let long = ""
         let time = ""
 
-        // //EXIF DATA FUNCTIONALITY
-        // //utility funct based on https://en.wikipedia.org/wiki/Geographic_coordinate_conversion
-        // const convertDegToDec = function (arr) {
-        //     return (arr[0].numerator + arr[1].numerator / 60 + (arr[2].numerator / arr[2].denominator) / 3600).toFixed(4);
-        // };
-
-        // var img = document.getElementById("picTaken");
-
-        // img.addEventListener("load", function () {
-
-        //     console.log("SHIT's GONNA CRASH!")
-        //     EXIF.getData(img, function () {
-        //         console.log("in exif");
-
-        //         //console.dir(EXIF.getAllTags(img));
-        //         let long = EXIF.getTag(this, "GPSLongitude");
-        //         let lat = EXIF.getTag(this, "GPSLatitude");
-        //         console.log("long is: ", long, "lat is: ", lat)
-        //         long = convertDegToDec(long);
-        //         lat = convertDegToDec(lat);
-        //         // //handle W/S
-        //         // if(EXIF.getTag(img,"GPSLongitudeRef") === "W") long = -1 * long;
-        //         // if(EXIF.getTag(img,"GPSLatitudeRef") === "S") lat = -1 * lat;
-        //         console.log(long, lat);
-        //     });
-        // }, false);
-
-
-        ///SIMPLE VERSION OF TAKE PHOTO
-        // $scope.takePhoto = function() {
-        //     $cordovaCamera.getPicture({
-        //         sourceType: Camera.PictureSourceType.CAMERA,       //camera
-        //         destinationType: Camera.DestinationType.FILE_URI, //file URI
-        //         saveToPhotoAlbum:false,
-        //         correctOrientation:true
-        //     }).then(function(imageURI) {
-        //         $scope.srcImage = imageURI;
-        //         console.log($scope.srcImage)
-        //     }, function(err) {
-        //         alert('An error has occured');
-        //     });
-        //   };
-
-        // //// MORE COMPLEX VERSION OF TAKE PHOT
-        // //// copies the file to the cordova.file.dataDirectory
         $scope.srcImage = "";
         $scope.takePhoto = function () {
-
+            console.log('takephoto called')
             const picOptions = {
                 quality: 50,
                 destinationType: Camera.DestinationType.DATA_URL,
@@ -99,57 +68,7 @@ angular.module('app')
             })
 
 
-
-
-            // $cordovaCamera.getPicture(options).then(function (sourcePath) {
-            //     var sourceDirectory = sourcePath.substring(0, sourcePath.lastIndexOf('/') + 1);
-            //     var sourceFileName = sourcePath.substring(sourcePath.lastIndexOf('/') + 1, sourcePath.length);
-
-            //     console.log("Copying from : " + sourceDirectory + sourceFileName);
-            //     console.log("Copying to : " + cordova.file.dataDirectory + sourceFileName);
-            //     $cordovaFile.copyFile(sourceDirectory, sourceFileName, cordova.file.dataDirectory, sourceFileName).then(function(fileEntry) {
-            //         console.log(JSON.stringify(fileEntry))
-
-
-            //         //         //     const path = cordova.file.dataDirectory + sourceFileName;
-            //         $scope.srcImage = cordova.file.dataDirectory + sourceFileName;
-
-            //         $scope.srcImage = sourcePath
-            //         $scope.apply()
-
-
-            //     }, function(error) {
-            //        console.dir(JSON.stringify(error));
-            //     });
-
-            // }, function (err) {
-            //     console.log("get Picture error: ", JSON.stringify(err));
-            // });
         }
-
-
-        // function readBinaryFile(fileEntry) {
-
-        //     window.resolveLocalFileSystemURL(fileEntry, function (entry) {
-
-        //         entry.file(function (file) {
-        //             var reader = new FileReader();
-
-        //             reader.onloadend = function () {
-
-        //                 console.log("Successful file write: " + this.result);
-        //                 displayFileData(entry.fullPath + ": " + this.result);
-
-        //                 var blob = new Blob([new Uint8Array(this.result)], { type: "image/png" });
-        //                 $scope.srcImage = window.URL.createObjectURL(blob);
-        //             };
-
-        //             reader.readAsArrayBuffer(file);
-
-        //         }, onErrorReadFile);
-        //     })
-        // }
-
 
         //TRY TO CONVERT URL TO BLOB URL
         function fetchLocalFileViaCordova(path, successCallback, errorCallback) {
@@ -186,158 +105,6 @@ angular.module('app')
 
 
 
-
-        // ///// MOST COMPLEX TAKEPHOTO... adds unique ID and copies to app storage
-        // $scope.takePhoto = function () {
-        //     // var options = {
-        //     //     destinationType: Camera.DestinationType.FILE_URI,
-        //     //     sourceType: Camera.PictureSourceType.CAMERA,
-        //     // };
-
-        //     var options = {
-        //         quality: 100,
-        //         destinationType: Camera.DestinationType.FILE_URI,
-        //         sourceType: Camera.PictureSourceType.CAMERA,
-        //         allowEdit: true,
-        //         encodingType: Camera.EncodingType.JPEG,
-        //         // targetWidth: 250,
-        //         // targetHeight: 250,
-        //         popoverOptions: CameraPopoverOptions,
-        //         saveToPhotoAlbum: false
-        //     };
-
-        //         $cordovaCamera.getPicture(options).then(function(imageData) {
-        //             onImageSuccess(imageData);
-        //             //1
-        //             function onImageSuccess(fileURI) {
-        //                 console.log("#1 running onImageSuccess")
-        //                 createFileEntry(fileURI);
-        //             }
-        //             //2
-        //             function createFileEntry(fileURI) {
-        //                 console.log("#2 running creatFileEntry")
-        //                 window.resolveLocalFileSystemURL(fileURI, copyFile, fail);
-        //             }
-
-        //             //5 //file entry in the object...
-        //             //{"isFile":true,
-        //             //"isDirectory":false,
-        //             //"name":"cdv_photo_001.jpg",
-        //             //"fullPath":"/cdv_photo_001.jpg",
-        //             //"filesystem":"<FileSystem: temporary>",
-        //             //"nativeURL":"file:///var/mobile/Containers/Data/Application/63277060-18F4-435F-A2CA-5826A48FEECC/tmp/cdv_photo_001.jpg"}
-        //             function copyFile(fileEntry) {
-        //                 console.log("#5 running copyFile")
-        //                 var name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
-        //                 console.log("name:  ", name);
-        //                 console.log("fileEntry is... ", JSON.stringify(fileEntry))
-        //                 console.log("fileEntry.fullPath:  ", fileEntry.fullPath);
-        //                 var newName = makeid() + name;
-        //                 console.log(newName)
-
-        //                 window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(fileSystem2) {
-        //                         console.log("#6 running resolveLocalFileSytem....")
-        //                         fileEntry.copyTo(
-        //                             fileSystem2,
-        //                             newName,
-        //                             onCopySuccess,
-        //                             fail
-        //                         );
-        //                     },
-        //                     fail);
-        //             }
-
-        //             //6
-        //             function onCopySuccess(entry) {
-        //                 console.log("#6 running onCopySuccess")
-        //                 $scope.$apply(function() {
-
-        //                     console.log("This is what is going in the $scope.img (entry.nativeURL)...", entry.nativeURL);
-
-        //                     // Display your captured image in the <img> tag**
-
-        //                     $scope.urlImg = entry.nativeURL;
-        //                     /**
-        //                             window.localStorage.setItem('images', JSON.stringify($scope.images));
-
-        //                                  and to get the data:
-
-        //                                   var data = window.localStorage.getItem('images');
-        //                                             var array = angular.fromJson(data); **/
-
-
-
-
-        //                 });
-        //             }
-
-        //             function fail(error) {
-        //                 console.log("fail: " + error.code);
-        //             }
-
-        //             function makeid() {
-        //                 var text = "";
-        //                 var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-        //                 for (var i = 0; i < 5; i++) {
-        //                     text += possible.charAt(Math.floor(Math.random() * possible.length));
-        //                 }
-        //                 return text;
-        //             }
-
-        //         }, function(err) {
-        //             console.log(err);
-        //         });
-
-        //     }
-
-        // $scope.urlForImage = function(imageName) {
-        //     var name = imageName.substr(imageName.lastIndexOf('/') + 1);
-        //     var trueOrigin = cordova.file.dataDirectory + name;
-        //     return trueOrigin;
-        // }
-
-
-
-        // FileService.convertFileUriToInternalURL(imageData).then(function(cordovaUri) {
-        //            $scope.srcImage = cordovaUri;
-
-        //            console.log($scope.srcImage)
-        //        });
-
-        // $cordovaFile.resolveLocalFilesystemUrl(nativePath, function(imageURI) {
-        //     console.log('cdvfile URI: ' + imageURI.toInternalURL())
-        // })
-        // $cordovaFile.resolveLocalFilesystemUrl(imageURI).then(function(p) {
-        //     console.log('$cordovaFile promise is...',JSON.stringify(p))
-        // })
-        // relativeUri = '/' + fileUri.replace(cordova.file.applicationStorageDirectory, '')
-        // console.log(relativeUri)
-        // imageFileName = imageURI.substr(imageURI.lastIndexOf('/') + 1) + '';
-
-
-
-
-        // console.log('Got image '+imageURI);
-        // $scope.srcImage.url = imageURI;
-        // console.log(JSON.stringify($scope.srcImage))
-
-        //scope.apply can KMA
-        //         $scope.$apply()
-
-        //     }, function(err) {
-        //         console.log('there was an error in $apply', err)
-        //     });
-        //     // $cordovaCamera.getPicture(options).then(function (imageData) {
-        //     //     $scope.srcImage = "data:image/jpeg;base64," + imageData;
-        //     //     b64Img = imageData
-        //     //     console.log($scope.srcImage)
-        //     // }, function (err) {
-        //     //     // error
-        //     // });
-        // }
-
-
         $scope.uploadPhoto = function (photo) {
             //show loading spinner
             $ionicLoading.show();
@@ -345,26 +112,12 @@ angular.module('app')
             //creating empty object for pic data
             let picData = {}
 
-            //CREATING STORAGE REF
-            // Points to the root reference
-            var storageRef = firebase.storage().ref();
 
-            // Points to 'images'
-            var imagesRef = storageRef.child('images');
 
             // Points to 'images/space.jpg'
             // Note that you can use variables to create child values
             var fileName = 'space.jpg';
-            var ref = imagesRef.child(fileName);
 
-            // File path is 'images/space.jpg'
-            var path = ref.fullPath
-
-            // File name is 'space.jpg'
-            var name = ref.name
-
-            // Points to 'images'
-            var imagesRef = ref.parent;
 
 
             //UPLOAD PHOTO
@@ -378,14 +131,11 @@ angular.module('app')
 
             const photoId = uidGenerator()
 
+            //get the token object from local storage that is created at login by the server
+            const token = JSON.parse(localStorage.getItem("token"))
 
-            //get firebase user data from local storage
-            const userKey = Object.keys(window.localStorage)
-                .filter(it => it.startsWith('firebase:authUser'))[0];
-            //get all the user info as an object
-            const user = userKey ? JSON.parse(localStorage.getItem(userKey)) : undefined;
-            //get just the uid of the user
-            const uid = user.uid
+            //get the UserId from the token object
+            const uid = token.UserId
 
             //convert b64 to blob
             const b64toBlob = (b64Data, contentType = '', sliceSize = 512) => {
@@ -414,76 +164,35 @@ angular.module('app')
             const blob = b64toBlob(b64Img, contentType);
             const blobUrl = URL.createObjectURL(blob);
 
-            // Create the file metadata... doesnt work
-            var metadata = {
-                "photo_id": photoId,
+            $cordovaFileTransfer.upload('http://7670056c.ngrok.io/api/posts', blob)
+                .then(
 
-            };
+                    function (result) { },
+                    function (err) { },
+                    function (progress) { },
+                    function () {
+                        // Populate the picData object
+                        picData = {
+                            "userId": uid,
+                            "photoId": photoId,
+                            "lat": lat,
+                            "long": long,
+                            "artist": $scope.picInput.artist,
+                            "title": $scope.picInput.title
+                        }
+                        console.log("Pic upload complete, uploading picData to database....", JSON.stringify(picData))
+                        //post data to firebase database
+                        CameraFactory.addImg(picData)
 
-            // Upload blob to the object 'images/mountains.jpg'
-            var uploadTask = storageRef.child('images/' + photoId).put(blob, metadata);
+                        $scope.srcImage = "../../../img/placeholder.jpg"
+                        $scope.picInput = {
+                            "artist": "",
+                            "name": ""
+                        }
 
-            // Listen for state changes, errors, and completion of the upload.
-            uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
-                function (snapshot) {
-
-                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    console.log('Upload is ' + progress + '% done');
-                    switch (snapshot.state) {
-                        case firebase.storage.TaskState.PAUSED: // or 'paused'
-                            console.log('Upload is paused');
-                            break;
-                        case firebase.storage.TaskState.RUNNING: // or 'running'
-                            console.log('Upload is running');
-                            break;
-                    }
-                }, function (error) {
-
-                    // A full list of error codes is available at
-                    // https://firebase.google.com/docs/storage/web/handle-errors
-                    switch (error.code) {
-                        case 'storage/unauthorized':
-                            // User doesn't have permission to access the object
-                            break;
-
-                        case 'storage/canceled':
-                            // User canceled the upload
-                            break;
-
-                        case 'storage/unknown':
-                            // Unknown error occurred, inspect error.serverResponse
-                            break;
-                    }
-                }, function () {
-                    // Upload completed successfully, now we can get the download URL
-                    var downloadURL = uploadTask.snapshot.downloadURL;
-
-
-                    // Populate the picData object
-                    picData = {
-                        "userId": uid,
-                        "photoId": photoId,
-                        "lat": lat,
-                        "long": long,
-                        "time": time,
-                        "artist": $scope.picInput.artist,
-                        "name": $scope.picInput.name,
-                        "imgUrl": downloadURL
-                    }
-                    console.log("Pic upload complete, uploading picData to database....", JSON.stringify(picData))
-                    //post data to firebase database
-                    CameraFactory.addImg(picData)
-
-                    $scope.srcImage = "../../../img/placeholder.jpg"
-                    $scope.picInput = {
-                        "artist": "",
-                        "name":""
-                    }
-
-                    //hide loading spinner
-                    $ionicLoading.hide();
-                });
+                        //hide loading spinner
+                        $ionicLoading.hide();
+                    });
 
 
 

@@ -1,64 +1,28 @@
 
 <ion-view view-title="artALBUM">
     <ion-content class="padding">
-            <div class="list card" ng-repeat="photo in album | orderBy: '-time'">
-                <div  id="{{photo.id}}">
+            <div class="list card" ng-repeat="photo in album | toArray | orderBy: '-time'">
+                <div  id="{{photo.postId}}">
                     <div class="item item-avatar">
                         <img src="../../img/profile-placeholder.jpg">
-                        <h2 id='albumTitle'>Title: {{photo.name}}</h2>
+                        <h2 id='albumTitle'>Title: {{photo.title}}</h2>
                         <p id='albumArtist'>Artist: {{photo.artist}}</p>
                     </div>
 
                     <div class="item item-image">
-                        <img ng-src="{{photo.imgUrl || null}}">
+                        <img ng-src="{{photo.photoURI || null}}">
                     </div>
 
                     <a class="item item-icon-left assertive">
                         <i class="icon ion-thumbsup"></i>
                         0 likes
                     </a>
-                    <a class="item item-icon-left assertive" ng-click="deletePhoto(photo.id)">
+                    <a class="item item-icon-left assertive" ng-click="deletePhoto(photo.postId)">
                         <i class="icon ion-trash-a"></i>
                         Delete Post
                     </a>
                 </div>
             </div>
-
-
-            <!-- <div class="card" ng-repeat="photo in album">
-
-            <ion-item >
-            <h2>{{photo.name}}</h2>
-            <p>{{photo.artist}}</p>
-            </ion-item>
-
-            <img ng-src="{{photo.imgUrl || null}}">
-
-            <ion-card-content>
-            <p>My description</p>
-            </ion-card-content>
-
-            <ion-row>
-            <ion-col>
-                <button ion-button icon-left clear small>
-                    <ion-icon name="thumbs-up"></ion-icon>
-                    <div>12 Likes</div>
-                </button>
-            </ion-col>
-            <ion-col>
-                <button ion-button icon-left clear small>
-                <ion-icon name="text"></ion-icon>
-                <div>4 Comments</div>
-                </button>
-            </ion-col>
-            <ion-col center text-center>
-                <ion-note>
-                11h ago
-                </ion-note>
-            </ion-col>
-            </ion-row>
-
-        </div> -->
 
     </ion-content>
 </ion-view>

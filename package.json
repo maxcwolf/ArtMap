@@ -13,8 +13,12 @@
   },
   "dependencies": {
     "@ionic-native/camera": "^4.5.2",
+    "@ionic-native/core": "^4.2.0",
     "@ionic-native/geolocation": "^4.5.2",
     "@ionic/pro": "1.0.16",
+    "angular": "^1.6.9",
+    "angular-route": "^1.6.9",
+    "angular-toarrayfilter": "^1.0.3",
     "angular-ui-router": "^0.4.3",
     "b64-to-blob": "^1.2.19",
     "com.synconset.ImagePickerExt": "https://github.com/ratkop/-cordova-imagePickerEx.git",
@@ -23,6 +27,7 @@
     "cordova-plugin-camera": "^3.0.0",
     "cordova-plugin-device": "^1.1.4",
     "cordova-plugin-file": "^5.0.0",
+    "cordova-plugin-file-transfer": "^1.7.1",
     "cordova-plugin-geolocation": "^3.0.0",
     "cordova-plugin-ionic-webview": "^1.1.16",
     "cordova-plugin-splashscreen": "^4.0.3",
@@ -48,7 +53,8 @@
       "cordova-plugin-geolocation": {
         "GEOLOCATION_USAGE_DESCRIPTION": "To locate you"
       },
-      "cordova-plugin-statusbar": {}
+      "cordova-plugin-statusbar": {},
+      "cordova-plugin-file-transfer": {}
     },
     "platforms": [
       "ios"

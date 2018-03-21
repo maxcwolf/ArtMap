@@ -1,70 +1,42 @@
 angular
-.module("app")
-.factory("CameraFactory", function ($http, FIREBASE_CONFIG) {
-    return Object.create(null, {
-        "cache": {
-            value: null,
-            writable: true
-        },
-        "all": {
-            value: function () {
-                return firebase.auth().currentUser.getIdToken(true)
-                .then(idToken => {
-                    return $http({
-                        method: "GET",
-                        url: `${FIREBASE_CONFIG.databaseURL}/images/.json?auth=${idToken}`
-                    }).then(response => {
-                        const data = response.data
+    .module("app")
+    .factory("CameraFactory", function ($http, API) {
+        return Object.create(null, {
+            "cache": {
+                value: null,
+                writable: true
+            },
+            "addImg": {
+                value: function (data) {
+                    console.log('add image factory running...  data:', JSON.stringify(data))
 
-                        this.cache = Object.keys(data).map(key => {
-                            data[key].id = key
-                            return data[key]
-                        })
-
-                        return this.cache
-                    })
-                })
-            }
-        },
-        "addImg": {
-            value: function (data) {
-                return firebase.auth().currentUser.getIdToken(true)
-                .then(idToken => {
                     return $http({
                         method: "POST",
-                        url: `${FIREBASE_CONFIG.databaseURL}/images/.json?auth=${idToken}`,
+                        url: `${API.URL}/api/posts`,
                         data: {
                             "userId": data.userId,
                             "photoId": data.photoId,
                             "lat": data.lat,
                             "long": data.long,
-                            "time": data.time,
                             "artist": data.artist,
-                            "name": data.name,
-                            "imgUrl": data.imgUrl
+                            "title": data.title,
+                            "photoURI": data.photoURI
+                            }
+                    })
+                }
+            },
+            "addImgData": {
+                value: function (data, name) {
+
+                    return $http({
+                        method: "POST",
+                        url: `${API.URL}/api/posts/upload`,
+                        data: {
+                            "ImgStr": data,
+                            "ImgName": name
                         }
                     })
-                })
+                }
             }
-        },
-        "remove": {
-            value: function (key) {
-                return $http({
-                    method: "DELETE",
-                    url: `https://angular-employees-6727b.firebaseio.com/employees/${key}/.json`
-                })
-            }
-        },
-        "replace": {
-            value: function (employee, key) {
-                employee.employmentEnd = Date.now()
-
-                return $http({
-                    method: "PUT",
-                    url: `https://angular-employees-6727b.firebaseio.com/employees/${key}/.json`,
-                    data: employee
-                })
-            }
-        }
+        })
     })
-})

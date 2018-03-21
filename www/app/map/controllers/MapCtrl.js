@@ -19,9 +19,10 @@ angular.module('app')
         $scope.createModal = function(markerId) {
             MarkerFactory.single(markerId).then(function(response) {
                 $scope.modal = {
-                    name: response.data.name,
+                    title: response.data.title,
                     artist: response.data.artist,
-                    imgUrl: response.data.imgUrl
+                    photoURI: response.data.photoURI,
+                    likesCount: response.data.likesCount
                 }
                 console.log("creatModal is returning..", response)
                 console.log("$scope.modal is...", $scope.modal)
@@ -61,9 +62,9 @@ angular.module('app')
                     map: $scope.map,
                     position: new google.maps.LatLng(markerData.lat, markerData.long),
                     artist: markerData.artist,
-                    name: markerData.name,
-                    image: markerData.imgUrl,
-                    id: markerData.id
+                    name: markerData.title,
+                    image: markerData.photoURI,
+                    id: markerData.postId
                 });
 
                 console.log("marker.id is...", marker.id)

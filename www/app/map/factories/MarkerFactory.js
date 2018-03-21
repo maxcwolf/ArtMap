@@ -1,12 +1,24 @@
 angular
   .module('app')
-  .factory("MarkerFactory", function ($http, FIREBASE_CONFIG) {
+  .factory("MarkerFactory", function ($http, API) {
     return Object.create(null, {
         "cache": {
             value: null,
             writable: true
         },
         "all": {
+            value: function () {
+                return $http({
+                    "url": `${API.URL}/api/posts`,
+                    "method": "GET"
+                }).then(response => {
+                    const data = response.data
+                    return data
+                    console.log("Album response: ", data)
+                })
+            }
+        },
+        "OLD_all": {
             value: function () {
                 return firebase.auth().currentUser.getIdToken(true)
                 .then(idToken => {
@@ -27,6 +39,14 @@ angular
             }
         },
         "single": {
+            value: function (id) {
+                return $http({
+                    "url": `${API.URL}/api/posts/${id}`,
+                    "method": "GET"
+                })
+            }
+        },
+        "OLD_single": {
             value: function (id) {
                 return firebase.auth().currentUser.getIdToken(true)
                 .then(idToken => {

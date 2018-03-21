@@ -1,27 +1,28 @@
 angular.module('app')
     .controller('AlbumCtrl', function ($scope, $timeout, AlbumFactory) {
 
-        //get firebase user data from local storage
-        const userKey = Object.keys(window.localStorage)
-            .filter(it => it.startsWith('firebase:authUser'))[0];
-        //get all the user info as an object
-        const user = userKey ? JSON.parse(localStorage.getItem(userKey)) : undefined;
-        //get just the uid of the user
+        //get the token object from local storage that is created at login by the server
+        const token = JSON.parse(localStorage.getItem("token"))
+
+        //get the UserId from the token object
+        const uid = token.UserId
+
+        console.log(uid)
 
         $scope.album = []
 
-        const getAlbums = function () {
-            AlbumFactory.getUserAlbum(user.uid).then(function(response) {
+        const getAlbums = function (userid) {
+            AlbumFactory.getUserAlbum(userid).then(function(response) {
             $timeout(console.log("waiting for photo"), 300) // <-- this sucks
-            $scope.album = response
-
-            console.log(response)
-
+            console.log(JSON.stringify(response))
+            //filter the response to only contain the posts of the logged in user
+            const userAlbum = response.filter(obj => obj.userId === userid);
+            $scope.album = userAlbum
 
             })
         }
 
-        $timeout(getAlbums, 50)
+        $timeout(getAlbums(uid), 50)
 
 
         console.log(" 2nd call album is", $scope.album)
